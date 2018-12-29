@@ -1,11 +1,15 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
 import { Link } from "react-router-dom";
 
 class Clients extends Component {
   render() {
     const clients = [
       {
-        id: "dafddfa3",
+        id: "dafddfa4",
         firstName: "karol",
         lastName: "Jonson",
         email: "kewin@gmail.com",
@@ -78,4 +82,13 @@ class Clients extends Component {
     }
   }
 }
-export default Clients;
+export default compose(
+  firestoreConnect([
+    {
+      collection: "clients"
+    }
+  ]),
+  connect((state, props) => ({
+    clients: state.firestore.ordered.clients
+  }))
+)(Clients);
